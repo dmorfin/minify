@@ -5,7 +5,7 @@ var MUB = {
     _uid : 0,
     _minRoot : '/min/?',
     checkRewrite : function () {
-        var testUri = location.pathname.replace(/\/[^\/]*$/, '/rewriteTest.js').substr(1);
+        var testUri = location.pathname.replace(minifyPrefix,'').replace(/\/[^\/]*$/, '/rewriteTest.js').substr(1);
         function fail() {
             $('#minRewriteFailed')[0].className = 'topNote';
         }
@@ -25,7 +25,7 @@ var MUB = {
      * Get markup for new source LI element
      */
     newLi : function () {
-        return '<li id="li' + MUB._uid + '">http://' + location.host + '/<input type=text size=20>' +
+        return '<li id="li' + MUB._uid + '">' + location.protocol +'//' + location.host + '/<input type=text size=20>' +
         ' <button title="Remove">x</button> <button title="Include Earlier">&uarr;</button>' +
         ' <button title="Include Later">&darr;</button> <span></span></li>';
     },
@@ -71,7 +71,7 @@ var MUB = {
             return;
         var li = this;
         $('span', this).html('');
-        var url = 'http://' + location.host + '/' +
+        var url = '' + location.protocol +'//' + location.host + '/' +
                 $('input', this)[0].value.replace(/^\//, '');
         $.ajax({
             url : url,
@@ -233,7 +233,7 @@ var MUB = {
         } else {
             // setup bookmarklet 1
             $.ajax({
-                url : '../?f=' + location.pathname.replace(/\/[^\/]*$/, '/bm.js').substr(1),
+                url : '../?f=' + location.pathname.replace(minifyPrefix,'').replace(/\/[^\/]*$/, '/bm.js').substr(1),
                 success : function (code) {
                     $('#bm')[0].href = code
                         .replace('%BUILDER_URL%', location.href)
@@ -248,7 +248,7 @@ var MUB = {
         }
         // setup bookmarklet 2
         $.ajax({
-            url : '../?f=' + location.pathname.replace(/\/[^\/]*$/, '/bm2.js').substr(1),
+            url : '../?f=' + location.pathname.replace(minifyPrefix,'').replace(/\/[^\/]*$/, '/bm2.js').substr(1),
             success : function (code) {
                 $('#bm2')[0].href = code.replace(/\n/g, ' ');
             },

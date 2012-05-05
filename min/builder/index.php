@@ -186,9 +186,13 @@ by Minify. E.g. <code>@import "<span class=minRoot>/min/?</span>g=css2";</code><
 <script src="//ajax.googleapis.com/ajax/libs/jquery/1.6.3/jquery.min.js"></script>
 <script>window.jQuery || document.write('<script src="jquery-1.6.3.min.js"><\/script>')</script>
 <script>
+    var minifyPrefix = '<?php
+    list($sitePrefix) = explode('/min/builder/index.php', $_SERVER['SCRIPT_NAME'], 2);
+    echo $sitePrefix
+?>';
 (function () {
     // workaround required to test when /min isn't child of web root
-    var src = "../?f=" + location.pathname.replace(/\/[^\/]*$/, '/_index.js').substr(1);
+    var src = "../?f=" + location.pathname.replace(/\/[^\/]*$/, '/_index.js').replace(minifyPrefix,'').substr(1);
     // load script immediately
     document.write('<\script src="' + src + '"><\/script>');
     $(function () {
